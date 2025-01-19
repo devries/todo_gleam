@@ -9,10 +9,12 @@ import todo_gleam/logger
 import todo_gleam/web.{type Context}
 import wisp.{type Request, type Response}
 
-// Our basic endpoints are
-// - /      : The main index page.
-// - /quote : An HTML fragment containing the post.
-// - /text  : A text/plain endpoint for grabbing posts.
+// Router has 5 endpoints:
+// / -> get entire page
+// /delete/id -> delete item id
+// /do/id -> do item id
+// /undo/id -> undo item id
+// /add -> add a new item
 pub fn handle_request(req: Request, ctx: Context) -> Response {
   use req <- web.middleware(req, ctx)
 
