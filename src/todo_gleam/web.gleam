@@ -77,6 +77,7 @@ pub fn detail_log_request(
   response
 }
 
+// Get the size of the response if it is not a file
 fn get_body_size(body: wisp.Body) -> Result(Int, Nil) {
   case body {
     wisp.Text(sb) -> Ok(string_tree.byte_size(sb))
@@ -86,6 +87,7 @@ fn get_body_size(body: wisp.Body) -> Result(Int, Nil) {
   }
 }
 
+// Render a todo item as a html li node.
 pub fn todo_item(item: database.Todo) -> html.Node {
   case item.done {
     True -> {
@@ -125,6 +127,7 @@ pub fn todo_item(item: database.Todo) -> html.Node {
   }
 }
 
+// Render the index page along with the list of todo items.
 pub fn index(items: List(database.Todo)) -> html.Node {
   html.Body([], [
     html.Head([

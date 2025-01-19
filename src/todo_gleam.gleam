@@ -10,6 +10,7 @@ import wisp/wisp_mist
 
 pub fn main() {
   wisp.configure_logger()
+
   // Uncomment below for debug logging
   // wisp.set_logger_level(wisp.DebugLevel)
 

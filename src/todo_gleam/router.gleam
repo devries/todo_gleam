@@ -19,7 +19,7 @@ pub fn handle_request(req: Request, ctx: Context) -> Response {
   use req <- web.middleware(req, ctx)
 
   case wisp.path_segments(req) {
-    [] -> main_page(req, ctx)
+    [] -> main_page_handler(req, ctx)
     ["delete", id] -> delete_handler(req, ctx, id)
     ["do", id] -> do_handler(req, ctx, id)
     ["undo", id] -> undo_handler(req, ctx, id)
@@ -28,7 +28,8 @@ pub fn handle_request(req: Request, ctx: Context) -> Response {
   }
 }
 
-fn main_page(req: Request, ctx: Context) -> Response {
+// Send back the index page with all the current todos
+fn main_page_handler(req: Request, ctx: Context) -> Response {
   use <- wisp.require_method(req, Get)
 
   case database.get_todos(ctx.conn) {
@@ -46,16 +47,7 @@ fn main_page(req: Request, ctx: Context) -> Response {
   }
 }
 
-// // from earlier
-// fn quote_response(req: Request, ctx: Context) -> Response {
-//   use <- wisp.require_method(req, Get)
-
-//   let fragment = web.quote_html(ctx)
-//   wisp.ok()
-//   |> wisp.set_header("cache-control", "no-cache, no-store")
-//   |> wisp.html_body(fragment)
-// }
-
+// Add a new todo item to the database and the UI
 fn add_handler(req: Request, ctx: Context) -> Response {
   use form <- wisp.require_form(req)
 
@@ -73,11 +65,11 @@ fn add_handler(req: Request, ctx: Context) -> Response {
       |> wisp.string_body("Empty todo items are not accepted")
     }
     False -> {
-      use new_id <- emessage_to_isa(database.add_todo(ctx.conn, item_text))
+      use new_id <- emessage_to_isa(database.add_todo(ctx.conn, trimmed_text))
 
       let rendered_item =
         nakai.to_inline_string_tree(
-          web.todo_item(database.Todo(new_id, item_text, False)),
+          web.todo_item(database.Todo(new_id, trimmed_text, False)),
         )
 
       wisp.ok()
@@ -86,6 +78,7 @@ fn add_handler(req: Request, ctx: Context) -> Response {
   }
 }
 
+// Delete a todo item from the database and the UI
 fn delete_handler(req: Request, ctx: Context, id: String) -> Response {
   use <- wisp.require_method(req, Delete)
 
@@ -104,6 +97,7 @@ fn delete_handler(req: Request, ctx: Context, id: String) -> Response {
   }
 }
 
+// Mark a todo as done
 fn do_handler(req: Request, ctx: Context, id: String) -> Response {
   use <- wisp.require_method(req, Get)
 
@@ -126,6 +120,7 @@ fn do_handler(req: Request, ctx: Context, id: String) -> Response {
   }
 }
 
+// Mark a todo as not done
 fn undo_handler(req: Request, ctx: Context, id: String) -> Response {
   use <- wisp.require_method(req, Get)
 
