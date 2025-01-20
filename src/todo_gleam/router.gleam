@@ -5,7 +5,9 @@ import gleam/result
 import gleam/string
 import nakai
 import todo_gleam/database
+import todo_gleam/index
 import todo_gleam/logger
+import todo_gleam/todo_item
 import todo_gleam/web.{type Context}
 import wisp.{type Request, type Response}
 
@@ -39,7 +41,7 @@ fn main_page_handler(req: Request, ctx: Context) -> Response {
       |> wisp.string_body("Internal Server Error: " <> message)
     }
     Ok(items) -> {
-      let page = nakai.to_string_tree(web.index(items))
+      let page = nakai.to_string_tree(index.page(items))
 
       wisp.ok()
       |> wisp.html_body(page)
@@ -69,7 +71,7 @@ fn add_handler(req: Request, ctx: Context) -> Response {
 
       let rendered_item =
         nakai.to_inline_string_tree(
-          web.todo_item(database.Todo(new_id, trimmed_text, False)),
+          todo_item.fragment(database.Todo(new_id, trimmed_text, False)),
         )
 
       wisp.ok()
@@ -112,7 +114,7 @@ fn do_handler(req: Request, ctx: Context, id: String) -> Response {
 
       use item <- emessage_to_isa(database.get_one_todo(ctx.conn, tid))
 
-      let rendered_item = nakai.to_inline_string_tree(web.todo_item(item))
+      let rendered_item = nakai.to_inline_string_tree(todo_item.fragment(item))
 
       wisp.ok()
       |> wisp.html_body(rendered_item)
@@ -135,7 +137,7 @@ fn undo_handler(req: Request, ctx: Context, id: String) -> Response {
 
       use item <- emessage_to_isa(database.get_one_todo(ctx.conn, tid))
 
-      let rendered_item = nakai.to_inline_string_tree(web.todo_item(item))
+      let rendered_item = nakai.to_inline_string_tree(todo_item.fragment(item))
 
       wisp.ok()
       |> wisp.html_body(rendered_item)

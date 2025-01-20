@@ -7,10 +7,7 @@ import gleam/list
 import gleam/result
 import gleam/string
 import gleam/string_tree
-import nakai/attr
-import nakai/html
 import sqlight
-import todo_gleam/database
 import wisp
 
 pub type Context {
@@ -85,92 +82,4 @@ fn get_body_size(body: wisp.Body) -> Result(Int, Nil) {
     wisp.File(_) -> Error(Nil)
     wisp.Empty -> Ok(0)
   }
-}
-
-// Render a todo item as a html li node.
-pub fn todo_item(item: database.Todo) -> html.Node {
-  case item.done {
-    True -> {
-      html.li([], [
-        html.span(
-          [
-            attr.Attr("hx-target", "closest li"),
-            attr.Attr("hx-swap", "outerHTML"),
-            attr.Attr("hx-delete", "/delete/" <> int.to_string(item.id)),
-          ],
-          [html.UnsafeInlineHtml("&times;")],
-        ),
-        html.span(
-          [
-            attr.Attr("hx-target", "closest li"),
-            attr.Attr("hx-swap", "outerHTML"),
-            attr.Attr("hx-get", "/undo/" <> int.to_string(item.id)),
-          ],
-          [html.Text("↺")],
-        ),
-        html.s_text([], item.text),
-      ])
-    }
-    False -> {
-      html.li([], [
-        html.span(
-          [
-            attr.Attr("hx-target", "closest li"),
-            attr.Attr("hx-swap", "outerHTML"),
-            attr.Attr("hx-get", "/do/" <> int.to_string(item.id)),
-          ],
-          [html.UnsafeInlineHtml("&times;")],
-        ),
-        html.Text(item.text),
-      ])
-    }
-  }
-}
-
-// Render the index page along with the list of todo items.
-pub fn index(items: List(database.Todo)) -> html.Node {
-  html.Body([], [
-    html.Head([
-      // Boilderplate
-      html.meta([attr.http_equiv("X-UA-Compatible"), attr.content("IE=edge")]),
-      html.meta([
-        attr.name("viewport"),
-        attr.content("width=device-width, initial-scale=1"),
-      ]),
-      html.title("Who do that todo that you do?"),
-      html.link([attr.rel("stylesheet"), attr.href("static/main.css")]),
-      html.link([attr.rel("icon"), attr.href("static/favicon.png")]),
-      html.Element("script", [attr.src("static/htmx.min.js")], []),
-      html.Element("script", [attr.src("static/local.js")], []),
-    ]),
-    html.h1_text([], "Who do that todo that you do?"),
-    html.form(
-      [
-        attr.class("hform"),
-        attr.id("addition"),
-        attr.Attr("hx-post", "/add"),
-        attr.Attr("hx-target", "#list"),
-        attr.Attr("hx-swap", "beforeend"),
-      ],
-      [
-        html.input([
-          attr.type_("text"),
-          attr.name("newTodo"),
-          attr.placeholder("Todo..."),
-        ]),
-        html.button([attr.type_("submit")], [html.Text("Add")]),
-      ],
-    ),
-    html.p([attr.class("hide"), attr.id("send-error")], [
-      html.Text("Error communicating with server"),
-    ]),
-    html.div([], [html.ul([attr.id("list")], list.map(items, todo_item))]),
-    html.div([attr.class("footer")], [
-      html.img([
-        attr.src("static/createdwith.jpeg"),
-        attr.alt("Site created with HTMX"),
-        attr.width("200"),
-      ]),
-    ]),
-  ])
 }
