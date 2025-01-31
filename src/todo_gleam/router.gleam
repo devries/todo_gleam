@@ -1,4 +1,4 @@
-import gleam/http.{Delete, Get}
+import gleam/http.{Delete, Get, Put}
 import gleam/int
 import gleam/list
 import gleam/result
@@ -101,7 +101,7 @@ fn delete_handler(req: Request, ctx: Context, id: String) -> Response {
 
 // Mark a todo as done
 fn do_handler(req: Request, ctx: Context, id: String) -> Response {
-  use <- wisp.require_method(req, Get)
+  use <- wisp.require_method(req, Put)
 
   case int.parse(id) {
     Error(Nil) -> {
@@ -124,7 +124,7 @@ fn do_handler(req: Request, ctx: Context, id: String) -> Response {
 
 // Mark a todo as not done
 fn undo_handler(req: Request, ctx: Context, id: String) -> Response {
-  use <- wisp.require_method(req, Get)
+  use <- wisp.require_method(req, Put)
 
   case int.parse(id) {
     Error(Nil) -> {

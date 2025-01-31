@@ -1,7 +1,7 @@
 import gleam/int
-import nakai/attr
 import nakai/html
 import todo_gleam/database
+import todo_gleam/htmx
 
 // Render a todo item as a html li node.
 pub fn fragment(item: database.Todo) -> html.Node {
@@ -10,17 +10,17 @@ pub fn fragment(item: database.Todo) -> html.Node {
       html.li([], [
         html.span(
           [
-            attr.Attr("hx-target", "closest li"),
-            attr.Attr("hx-swap", "outerHTML"),
-            attr.Attr("hx-delete", "/delete/" <> int.to_string(item.id)),
+            htmx.target("closest li"),
+            htmx.swap("outerHTML"),
+            htmx.delete("/delete/" <> int.to_string(item.id)),
           ],
           [html.UnsafeInlineHtml("&times;")],
         ),
         html.span(
           [
-            attr.Attr("hx-target", "closest li"),
-            attr.Attr("hx-swap", "outerHTML"),
-            attr.Attr("hx-get", "/undo/" <> int.to_string(item.id)),
+            htmx.target("closest li"),
+            htmx.swap("outerHTML"),
+            htmx.put("/undo/" <> int.to_string(item.id)),
           ],
           [html.Text("↺")],
         ),
@@ -31,9 +31,9 @@ pub fn fragment(item: database.Todo) -> html.Node {
       html.li([], [
         html.span(
           [
-            attr.Attr("hx-target", "closest li"),
-            attr.Attr("hx-swap", "outerHTML"),
-            attr.Attr("hx-get", "/do/" <> int.to_string(item.id)),
+            htmx.target("closest li"),
+            htmx.swap("outerHTML"),
+            htmx.put("/do/" <> int.to_string(item.id)),
           ],
           [html.UnsafeInlineHtml("&times;")],
         ),

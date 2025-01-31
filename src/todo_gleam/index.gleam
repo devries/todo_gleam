@@ -2,6 +2,7 @@ import gleam/list
 import nakai/attr
 import nakai/html
 import todo_gleam/database
+import todo_gleam/htmx
 import todo_gleam/todo_item
 
 // Render the index page along with the list of todo items.
@@ -25,9 +26,9 @@ pub fn page(items: List(database.Todo)) -> html.Node {
       [
         attr.class("hform"),
         attr.id("addition"),
-        attr.Attr("hx-post", "/add"),
-        attr.Attr("hx-target", "#list"),
-        attr.Attr("hx-swap", "beforeend"),
+        htmx.post("/add"),
+        htmx.target("#list"),
+        htmx.swap("beforeend"),
       ],
       [
         html.input([
