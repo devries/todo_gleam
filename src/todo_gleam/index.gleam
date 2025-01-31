@@ -9,7 +9,7 @@ import todo_gleam/todo_item
 pub fn page(items: List(database.Todo)) -> html.Node {
   html.Body([], [
     html.Head([
-      // Boilderplate
+      // Boilerplate
       html.meta([attr.http_equiv("X-UA-Compatible"), attr.content("IE=edge")]),
       html.meta([
         attr.name("viewport"),

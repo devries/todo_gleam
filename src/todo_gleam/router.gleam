@@ -18,6 +18,8 @@ import wisp.{type Request, type Response}
 // /do/id -> do item id
 // /undo/id -> undo item id
 // /add -> add a new item
+// /api/get/id -> get item id in JSON
+// /api/get -> get all items in JSON
 pub fn handle_request(req: Request, ctx: Context) -> Response {
   use req <- web.middleware(req, ctx)
 
@@ -169,11 +171,7 @@ fn get_json(req: Request, ctx: Context, id: String) -> Response {
       wisp.ok()
       |> wisp.set_header("content-type", "application/json")
       |> wisp.string_body({
-        json.object([
-          #("id", json.int(item.id)),
-          #("text", json.string(item.text)),
-          #("done", json.bool(item.done)),
-        ])
+        todo_item.json_fragment(item)
         |> json.to_string
       })
     }
@@ -188,13 +186,7 @@ fn getall_json(req: Request, ctx: Context) -> Response {
   wisp.ok()
   |> wisp.set_header("content-type", "application/json")
   |> wisp.string_body({
-    json.array(from: items, of: fn(item) {
-      json.object([
-        #("id", json.int(item.id)),
-        #("text", json.string(item.text)),
-        #("done", json.bool(item.done)),
-      ])
-    })
+    json.array(from: items, of: todo_item.json_fragment)
     |> json.to_string
   })
 }

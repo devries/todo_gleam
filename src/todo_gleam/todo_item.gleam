@@ -1,4 +1,5 @@
 import gleam/int
+import gleam/json
 import nakai/html
 import todo_gleam/database
 import todo_gleam/htmx
@@ -41,4 +42,12 @@ pub fn fragment(item: database.Todo) -> html.Node {
       ])
     }
   }
+}
+
+pub fn json_fragment(item: database.Todo) -> json.Json {
+  json.object([
+    #("id", json.int(item.id)),
+    #("text", json.string(item.text)),
+    #("done", json.bool(item.done)),
+  ])
 }
