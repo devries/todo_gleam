@@ -1,5 +1,6 @@
 import gleam/http.{Delete, Get, Put}
 import gleam/int
+import gleam/json
 import gleam/list
 import gleam/result
 import gleam/string
@@ -26,6 +27,8 @@ pub fn handle_request(req: Request, ctx: Context) -> Response {
     ["do", id] -> do_handler(req, ctx, id)
     ["undo", id] -> undo_handler(req, ctx, id)
     ["add"] -> add_handler(req, ctx)
+    ["api", "get", id] -> get_json(req, ctx, id)
+    ["api", "get"] -> getall_json(req, ctx)
     _ -> wisp.not_found()
   }
 }
@@ -145,11 +148,72 @@ fn undo_handler(req: Request, ctx: Context, id: String) -> Response {
   }
 }
 
+// Add a json handler
+fn get_json(req: Request, ctx: Context, id: String) -> Response {
+  use <- wisp.require_method(req, Get)
+
+  case int.parse(id) {
+    Error(Nil) -> {
+      wisp.bad_request()
+      |> wisp.set_header("content-type", "application/json")
+      |> wisp.string_body({
+        json.object([
+          #("error", json.string("Unable to parse " <> id <> " as integer")),
+        ])
+        |> json.to_string
+      })
+    }
+    Ok(tid) -> {
+      use item <- json_emessage_to_isa(database.get_one_todo(ctx.conn, tid))
+
+      wisp.ok()
+      |> wisp.set_header("content-type", "application/json")
+      |> wisp.string_body({
+        json.object([
+          #("id", json.int(item.id)),
+          #("text", json.string(item.text)),
+          #("done", json.bool(item.done)),
+        ])
+        |> json.to_string
+      })
+    }
+  }
+}
+
+fn getall_json(req: Request, ctx: Context) -> Response {
+  use <- wisp.require_method(req, Get)
+
+  use items <- json_emessage_to_isa(database.get_todos(ctx.conn))
+
+  wisp.ok()
+  |> wisp.set_header("content-type", "application/json")
+  |> wisp.string_body({
+    json.array(from: items, of: fn(item) {
+      json.object([
+        #("id", json.int(item.id)),
+        #("text", json.string(item.text)),
+        #("done", json.bool(item.done)),
+      ])
+    })
+    |> json.to_string
+  })
+}
+
 fn internal_server_error(message: String) -> Response {
   logger.log_warning("Error: " <> message)
   wisp.internal_server_error()
   |> wisp.set_header("content-type", "text/plain; charset=utf-8")
   |> wisp.string_body("Internal Server Error: " <> message)
+}
+
+fn json_internal_server_error(message: String) -> Response {
+  logger.log_warning("Error: " <> message)
+  wisp.internal_server_error()
+  |> wisp.set_header("content-type", "application/json")
+  |> wisp.string_body({
+    json.object([#("error", json.string("Internal Server Error: " <> message))])
+    |> json.to_string
+  })
 }
 
 fn emessage_to_isa(
@@ -158,6 +222,16 @@ fn emessage_to_isa(
 ) -> Response {
   case result {
     Error(message) -> internal_server_error(message)
+    Ok(v) -> fun(v)
+  }
+}
+
+fn json_emessage_to_isa(
+  result: Result(a, String),
+  apply fun: fn(a) -> Response,
+) -> Response {
+  case result {
+    Error(message) -> json_internal_server_error(message)
     Ok(v) -> fun(v)
   }
 }
