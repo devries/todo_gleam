@@ -1,12 +1,7 @@
 import gleam/list
-import gleeunit
 import gleeunit/should
 import sqlight
 import todo_gleam/database
-
-pub fn main() {
-  gleeunit.main()
-}
 
 pub fn write_read_test() {
   use conn <- sqlight.with_connection("file::memory:")
