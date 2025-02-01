@@ -157,22 +157,20 @@ fn get_json(req: Request, ctx: Context, id: String) -> Response {
   case int.parse(id) {
     Error(Nil) -> {
       wisp.bad_request()
-      |> wisp.set_header("content-type", "application/json")
-      |> wisp.string_body({
+      |> wisp.json_body({
         json.object([
           #("error", json.string("Unable to parse " <> id <> " as integer")),
         ])
-        |> json.to_string
+        |> json.to_string_tree
       })
     }
     Ok(tid) -> {
       use item <- json_emessage_to_isa(database.get_one_todo(ctx.conn, tid))
 
       wisp.ok()
-      |> wisp.set_header("content-type", "application/json")
-      |> wisp.string_body({
+      |> wisp.json_body({
         todo_item.json_fragment(item)
-        |> json.to_string
+        |> json.to_string_tree
       })
     }
   }
@@ -184,10 +182,9 @@ fn getall_json(req: Request, ctx: Context) -> Response {
   use items <- json_emessage_to_isa(database.get_todos(ctx.conn))
 
   wisp.ok()
-  |> wisp.set_header("content-type", "application/json")
-  |> wisp.string_body({
+  |> wisp.json_body({
     json.array(from: items, of: todo_item.json_fragment)
-    |> json.to_string
+    |> json.to_string_tree
   })
 }
 
@@ -201,10 +198,9 @@ fn internal_server_error(message: String) -> Response {
 fn json_internal_server_error(message: String) -> Response {
   logger.log_warning("Error: " <> message)
   wisp.internal_server_error()
-  |> wisp.set_header("content-type", "application/json")
-  |> wisp.string_body({
+  |> wisp.json_body({
     json.object([#("error", json.string("Internal Server Error: " <> message))])
-    |> json.to_string
+    |> json.to_string_tree
   })
 }
 
