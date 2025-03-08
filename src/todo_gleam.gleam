@@ -1,3 +1,4 @@
+import envoy
 import gleam/erlang/process
 import mist
 import sqlight
@@ -14,12 +15,17 @@ pub fn main() {
   // Uncomment below for debug logging
   // wisp.set_logger_level(wisp.DebugLevel)
 
+  let filename = case envoy.get("DBFILE") {
+    Ok(f) -> f
+    Error(Nil) -> "todo.db"
+  }
+
   logger.log_info("Starting")
 
   // Set up the web server process
   let secret_key_base = wisp.random_string(64)
 
-  use conn <- sqlight.with_connection("file:todo.db")
+  use conn <- sqlight.with_connection("file:" <> filename)
   let _ = database.create_database(conn)
 
   let ctx = Context(static_directory: static_directory(), conn: conn)
