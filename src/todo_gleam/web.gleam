@@ -1,4 +1,3 @@
-import birl
 import gleam/bytes_tree
 import gleam/http
 import gleam/http/request
@@ -7,6 +6,8 @@ import gleam/list
 import gleam/result
 import gleam/string
 import gleam/string_tree
+import gleam/time/calendar
+import gleam/time/timestamp
 import sqlight
 import wisp
 
@@ -38,7 +39,8 @@ pub fn detail_log_request(
 ) -> wisp.Response {
   let response = handler()
 
-  let now = birl.now()
+  // let now = birl.now()
+  let now = timestamp.system_time()
 
   let client_ip = {
     case list.key_find(req.headers, "x-forwarded-for") {
@@ -54,7 +56,7 @@ pub fn detail_log_request(
   }
 
   [
-    birl.to_iso8601(now),
+    timestamp.to_rfc3339(now, calendar.utc_offset),
     " ",
     client_ip,
     " - ",
