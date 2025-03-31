@@ -1,4 +1,4 @@
-FROM ghcr.io/gleam-lang/gleam:v1.8.1-erlang-alpine AS build
+FROM ghcr.io/gleam-lang/gleam:v1.9.1-erlang-alpine AS build
 
 RUN apk update && apk add build-base
 WORKDIR /builder
