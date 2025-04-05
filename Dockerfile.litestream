@@ -1,0 +1,4 @@
+FROM litestream/litestream:latest
+COPY cr_litestream.sh /
+
+ENTRYPOINT ["/cr_litestream.sh"]
