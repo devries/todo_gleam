@@ -1,0 +1,8 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/playground/todo_gleam:latest', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/playground/cr_litestream:latest', '-f', 'Dockerfile.litestream','.']
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/playground/todo_gleam:latest
+  - us-central1-docker.pkg.dev/$PROJECT_ID/playground/cr_litestream:latest
