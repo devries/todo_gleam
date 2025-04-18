@@ -1,0 +1,7 @@
+---
+version: 1.2.6
+title: HTML todo item snapshot
+file: ./test/snapshot_test.gleam
+test_name: html_todo_item_test
+---
+<li><span hx-target="closest li" hx-swap="outerHTML" hx-put="/do/1">&times;</span>sample</li>

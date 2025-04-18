@@ -7,6 +7,7 @@ COPY src/ /builder/src/
 COPY priv/ /builder/priv/
 
 RUN gleam export erlang-shipment
+RUN sed -i 's/\berl\b/exec\ erl/g' build/erlang-shipment/entrypoint.sh
 
 FROM erlang:alpine
 VOLUME /data
