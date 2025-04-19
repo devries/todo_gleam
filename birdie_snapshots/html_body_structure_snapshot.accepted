@@ -4,11 +4,4 @@ title: HTML body structure snapshot
 file: ./test/snapshot_test.gleam
 test_name: html_empty_body_test
 ---
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-</head>
 <body><h1>Who do that todo that you do?</h1><form class="hform" id="addition" hx-post="/add" hx-target="#list" hx-swap="beforeend"><input type="text" name="newTodo" placeholder="Todo..." /><button type="submit">Add</button></form><p class="hide" id="send-error">Error communicating with server</p><div><ul id="list"></ul></div><div class="footer"><img src="static/createdwith.jpeg" alt="Site created with HTMX" width="200" /></div></body>
-</html>

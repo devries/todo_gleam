@@ -7,13 +7,13 @@ import todo_gleam/todo_item
 
 pub fn html_head_test() {
   index.head()
-  |> nakai.to_string
+  |> nakai.to_inline_string
   |> birdie.snap(title: "HTML head snapshot")
 }
 
 pub fn html_empty_body_test() {
   index.body([])
-  |> nakai.to_string
+  |> nakai.to_inline_string
   |> birdie.snap(title: "HTML body structure snapshot")
 }
 
