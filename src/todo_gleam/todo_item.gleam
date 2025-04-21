@@ -12,7 +12,7 @@ pub fn fragment(item: database.Todo) -> html.Node {
       html.li([attr.class("my-2")], [
         html.span(
           [
-            attr.class("pr-4 cursor-pointer text-2xl"),
+            attr.class("pr-4 cursor-pointer text-2xl text-blue-700"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.delete("/delete/" <> int.to_string(item.id)),
@@ -21,7 +21,7 @@ pub fn fragment(item: database.Todo) -> html.Node {
         ),
         html.span(
           [
-            attr.class("pr-4 cursor-pointer text-xl"),
+            attr.class("pr-4 cursor-pointer text-xl text-blue-700"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.put("/undo/" <> int.to_string(item.id)),
@@ -35,7 +35,7 @@ pub fn fragment(item: database.Todo) -> html.Node {
       html.li([attr.class("my-2")], [
         html.span(
           [
-            attr.class("pr-4 cursor-pointer text-2xl"),
+            attr.class("pr-4 cursor-pointer text-2xl text-blue-700"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.put("/do/" <> int.to_string(item.id)),
