@@ -4,4 +4,4 @@ title: HTML done todo item snapsnot
 file: ./test/snapshot_test.gleam
 test_name: html_todo_done_item_test
 ---
-<li class="my-2"><span class="pr-4 cursor-pointer text-2xl" hx-target="closest li" hx-swap="outerHTML" hx-delete="/delete/1">&times;</span><span class="pr-4 cursor-pointer text-xl" hx-target="closest li" hx-swap="outerHTML" hx-put="/undo/1">↺</span><s>sample</s></li>
+<li class="my-2"><span class="pr-4 cursor-pointer text-2xl text-blue-700" hx-target="closest li" hx-swap="outerHTML" hx-delete="/delete/1">&times;</span><span class="pr-4 cursor-pointer text-xl text-blue-700" hx-target="closest li" hx-swap="outerHTML" hx-put="/undo/1">↺</span><s>sample</s></li>
