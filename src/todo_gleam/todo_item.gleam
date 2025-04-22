@@ -42,6 +42,9 @@ pub fn fragment(item: database.Todo) -> html.Node {
           ],
           [html.UnsafeInlineHtml("&times;")],
         ),
+        html.span([attr.class("pr-4 invisible text-xl text-blue-700")], [
+          html.Text("↺"),
+        ]),
         html.Text(item.text),
       ])
     }
