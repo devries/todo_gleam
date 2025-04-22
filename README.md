@@ -7,5 +7,9 @@ together. Todo items are saved to a [sqlite](https://www.sqlite.org/) database.
 I use the [wisp](https://gleam-wisp.github.io/wisp/) web framework and the
 [Nakai](https://nakaixo.github.io/) library to generate HTML. 
 
+I also decided to use this as a test implementation for trying
+[tailwindcss](https://tailwindcss.com/), and [Litestream](https://litestream.io/).
+It also does snapshot testing with [Birdie](https://hexdocs.pm/birdie/).
+
 This is based on my [Go implementation](https://github.com/devries/todo) of
 the same thing.
