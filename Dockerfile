@@ -1,10 +1,23 @@
-FROM ghcr.io/gleam-lang/gleam:v1.9.1-erlang-alpine AS build
+FROM ghcr.io/gleam-lang/gleam:v1.10.0-erlang AS tailwind
+
+WORKDIR /builder
+COPY gleam.toml manifest.toml /builder/
+COPY src/ /builder/src/
+COPY priv/ /builder/priv/
+COPY css/ /builder/css/
+
+RUN gleam run -m tailwind/install && \
+  gleam run -m tailwind/run
+
+FROM ghcr.io/gleam-lang/gleam:v1.10.0-erlang-alpine AS build
 
 RUN apk update && apk add build-base
 WORKDIR /builder
 COPY gleam.toml manifest.toml /builder/
 COPY src/ /builder/src/
 COPY priv/ /builder/priv/
+COPY css/ /builder/css/
+COPY --from=tailwind /builder/priv/static/main.css /builder/priv/static/main.css
 
 RUN gleam export erlang-shipment
 RUN sed -i 's/\berl\b/exec\ erl/g' build/erlang-shipment/entrypoint.sh

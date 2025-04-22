@@ -9,18 +9,18 @@ htmx.on("htmx:afterRequest", function (evt) {
 
 htmx.on("htmx:beforeRequest", function (evt) {
   el = htmx.find('#send-error');
-  htmx.addClass(el, "hide");
+  htmx.addClass(el, "hidden");
 })
 
 htmx.on("htmx:sendError", function (evt) {
   el = htmx.find('#send-error');
   el.innerHTML = "Unable to connect to server";
-  htmx.removeClass(el, "hide");
+  htmx.removeClass(el, "hidden");
 });
 
 htmx.on("htmx:responseError", function (evt) {
   el = htmx.find('#send-error');
   error = evt.detail.xhr.response;
   el.innerHTML = error;
-  htmx.removeClass(el, "hide");
+  htmx.removeClass(el, "hidden");
 });

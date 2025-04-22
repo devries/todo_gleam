@@ -4,4 +4,4 @@ title: HTML todo item snapshot
 file: ./test/snapshot_test.gleam
 test_name: html_todo_item_test
 ---
-<li><span hx-target="closest li" hx-swap="outerHTML" hx-put="/do/1">&times;</span>sample</li>
+<li class="my-2"><span class="pr-4 cursor-pointer text-2xl text-blue-700" hx-target="closest li" hx-swap="outerHTML" hx-put="/do/1">&times;</span><span class="pr-4 invisible text-xl text-blue-700">↺</span>sample</li>
