@@ -28,3 +28,10 @@ gleam_time = ">= 1.0.0 and < 2.0.0"
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
 birdie = ">= 1.2.6 and < 2.0.0"
+glailglind = ">= 2.0.1 and < 3.0.0"
+
+[tailwind]
+args = [
+  "--input=./css/input.css",
+  "--output=./priv/static/main.css"
+]
