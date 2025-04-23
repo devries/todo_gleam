@@ -1,25 +1,25 @@
-import nakai/attr.{type Attr, Attr}
+import lustre/attribute.{attribute}
 
-pub fn post(value: String) -> Attr {
-  Attr(name: "hx-post", value: value)
+pub fn post(value: String) {
+  attribute("hx-post", value)
 }
 
-pub fn get(value: String) -> Attr {
-  Attr(name: "hx-get", value: value)
+pub fn get(value: String) {
+  attribute("hx-get", value)
 }
 
-pub fn put(value: String) -> Attr {
-  Attr(name: "hx-put", value: value)
+pub fn put(value: String) {
+  attribute("hx-put", value)
 }
 
-pub fn delete(value: String) -> Attr {
-  Attr(name: "hx-delete", value: value)
+pub fn delete(value: String) {
+  attribute("hx-delete", value)
 }
 
-pub fn target(value: String) -> Attr {
-  Attr(name: "hx-target", value: value)
+pub fn target(value: String) {
+  attribute("hx-target", value)
 }
 
-pub fn swap(value: String) -> Attr {
-  Attr(name: "hx-swap", value: value)
+pub fn swap(value: String) {
+  attribute("hx-swap", value)
 }
