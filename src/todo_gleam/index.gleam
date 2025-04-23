@@ -46,12 +46,10 @@ pub fn body(items: List(database.Todo)) -> element.Element(a) {
         list.map(items, todo_item.fragment),
       ),
     ]),
-    html.div([attribute.class("p-6")], [
+    html.div([attribute.class("mt-10 w-52 mx-auto")], [
       html.img([
-        attribute.class("mx-auto"),
         attribute.src("static/createdwith.jpeg"),
         attribute.alt("Site created with HTMX"),
-        attribute.attribute("width", "200"),
       ]),
     ]),
   ])
