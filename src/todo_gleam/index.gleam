@@ -51,7 +51,7 @@ pub fn body(items: List(database.Todo)) -> element.Element(a) {
         attribute.class("mx-auto"),
         attribute.src("static/createdwith.jpeg"),
         attribute.alt("Site created with HTMX"),
-        attribute.width(200),
+        attribute.attribute("width", "200"),
       ]),
     ]),
   ])
