@@ -8,7 +8,7 @@ import todo_gleam/todo_item
 
 // Render the index page along with the list of todo items.
 pub fn page(items: List(database.Todo)) -> element.Element(Nil) {
-  html.html([], [head(), body(items)])
+  html.html([attribute.lang("en")], [head(), body(items)])
 }
 
 pub fn head() -> element.Element(a) {
@@ -37,7 +37,11 @@ pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
     ]),
     todo_form(),
     html.p(
-      [attribute.class("hidden text-red-500"), attribute.id("send-error")],
+      [
+        attribute.class("hidden text-red-500"),
+        attribute.id("send-error"),
+        attribute.role("status"),
+      ],
       [html.text("Error communicating with server")],
     ),
     html.div([], [
@@ -71,6 +75,7 @@ pub fn todo_form() -> element.Element(Nil) {
         ),
         attribute.type_("text"),
         attribute.name("newTodo"),
+        attribute.aria_label("Todo entry box"),
         attribute.placeholder("Todo..."),
       ]),
       html.button(

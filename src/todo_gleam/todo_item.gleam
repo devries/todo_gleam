@@ -16,6 +16,8 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
           "span",
           [
             attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
+            attribute.role("button"),
+            attribute.aria_label("delete"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.delete("/delete/" <> int.to_string(item.id)),
@@ -25,13 +27,15 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
         html.span(
           [
             attribute.class("pr-4 cursor-pointer text-xl text-blue-700"),
+            attribute.role("button"),
+            attribute.aria_label("undo"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.put("/undo/" <> int.to_string(item.id)),
           ],
           [html.text("↺")],
         ),
-        html.s([], [html.text(item.text)]),
+        html.del([], [html.text(item.text)]),
       ])
     }
     False -> {
@@ -41,15 +45,21 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
           "span",
           [
             attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
+            attribute.role("button"),
+            attribute.aria_label("do"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.put("/do/" <> int.to_string(item.id)),
           ],
           "&times;",
         ),
-        html.span([attribute.class("pr-4 invisible text-xl text-blue-700")], [
-          html.text("↺"),
-        ]),
+        html.span(
+          [
+            attribute.class("pr-4 invisible text-xl text-blue-700"),
+            attribute.aria_hidden(True),
+          ],
+          [html.text("↺")],
+        ),
         html.text(item.text),
       ])
     }
