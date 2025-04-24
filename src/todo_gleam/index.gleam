@@ -31,24 +31,33 @@ pub fn head() -> element.Element(a) {
 }
 
 pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
-  html.body([attribute.class("m-auto max-w-3xl px-3 float-none")], [
-    html.h1([attribute.class("py-6 text-4xl font-serif font-bold")], [
-      html.text("Who do that todo that you do?"),
-    ]),
-    todo_form(),
-    html.p(
-      [
-        attribute.class("hidden text-red-500"),
-        attribute.id("send-error"),
-        attribute.role("status"),
-      ],
-      [html.text("Error communicating with server")],
-    ),
-    html.div([], [
-      html.ul(
-        [attribute.class("p-0"), attribute.id("list")],
-        list.map(items, todo_item.fragment),
+  html.body([attribute.class("float-none")], [
+    html.div([attribute.class("bg-underwater-blue w-full mb-6")], [
+      html.h1(
+        [
+          attribute.class(
+            "m-auto max-w-3xl py-6 text-4xl text-faff-pink font-serif font-bold text-center",
+          ),
+        ],
+        [html.text("Who do that todo that you do?")],
       ),
+    ]),
+    html.div([attribute.class("m-auto max-w-3xl px-3 float-none")], [
+      todo_form(),
+      html.p(
+        [
+          attribute.class("hidden text-red-500"),
+          attribute.id("send-error"),
+          attribute.role("status"),
+        ],
+        [html.text("Error communicating with server")],
+      ),
+      html.div([], [
+        html.ul(
+          [attribute.class("p-0"), attribute.id("list")],
+          list.map(items, todo_item.fragment),
+        ),
+      ]),
     ]),
     html.div([attribute.class("mt-10 w-52 mx-auto")], [
       html.img([

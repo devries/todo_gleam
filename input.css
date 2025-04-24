@@ -5,4 +5,15 @@
 @theme {
   --font-serif: "Merriweather", ui-serif, serif;
   --font-sans: "Outfit", ui-sans-serif, sans-serif;
+  --color-faff-pink: #ffaff3;
+  --color-plastic-yellow: #fffbe8;
+  --color-gleam-black: #1e1e1e;
+  --color-underwater-blue: #292d3e;
+}
+
+@layer base {
+  html {
+    @apply text-gleam-black;
+    @apply bg-plastic-yellow;
+  }
 }
