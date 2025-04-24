@@ -4,7 +4,7 @@ WORKDIR /builder
 COPY gleam.toml manifest.toml /builder/
 COPY src/ /builder/src/
 COPY priv/ /builder/priv/
-COPY css/ /builder/css/
+COPY input.css /builder/input.css
 
 RUN gleam run -m tailwind/install && \
   gleam run -m tailwind/run

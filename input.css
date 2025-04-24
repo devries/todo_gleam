@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Outfit:wght@100..900&display=swap');
 
-@import "tailwindcss" source("../src");
+@import "tailwindcss" source("src");
 
 @theme {
   --font-serif: "Merriweather", ui-serif, serif;
