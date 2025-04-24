@@ -4,4 +4,4 @@ title: HTML head snapshot
 file: ./test/snapshot_test.gleam
 test_name: html_head_test
 ---
-<head><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta content="width=device-width, initial-scale=1" name="viewport"><title>Who do that todo that you do?</title><link href="static/main.css" rel="stylesheet"><link href="static/favicon.png" rel="icon"><script src="static/htmx.min.js"></script><script src="static/local.js"></script></head>
+<head><meta charset="utf-8"><meta content="IE=edge" http-equiv="X-UA-Compatible"><meta content="width=device-width, initial-scale=1" name="viewport"><title>Who do that todo that you do?</title><link href="static/main.css" rel="stylesheet"><link href="static/favicon.png" rel="icon"><script src="static/htmx.min.js"></script><script src="static/local.js"></script></head>
