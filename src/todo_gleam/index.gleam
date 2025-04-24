@@ -14,6 +14,7 @@ pub fn page(items: List(database.Todo)) -> element.Element(Nil) {
 pub fn head() -> element.Element(a) {
   html.head([], [
     // Boilerplate
+    html.meta([attribute.charset("utf-8")]),
     html.meta([
       attribute.http_equiv("X-UA-Compatible"),
       attribute.content("IE=edge"),
