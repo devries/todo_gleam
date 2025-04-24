@@ -16,7 +16,6 @@ WORKDIR /builder
 COPY gleam.toml manifest.toml /builder/
 COPY src/ /builder/src/
 COPY priv/ /builder/priv/
-COPY css/ /builder/css/
 COPY --from=tailwind /builder/priv/static/main.css /builder/priv/static/main.css
 
 RUN gleam export erlang-shipment
