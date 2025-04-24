@@ -7,7 +7,7 @@ import todo_gleam/database
 import todo_gleam/htmx
 
 // Render a todo item as a html li node.
-pub fn fragment(item: database.Todo) -> element.Element(a) {
+pub fn fragment(item: database.Todo) -> element.Element(Nil) {
   case item.done {
     True -> {
       html.li([attribute.class("my-2")], [

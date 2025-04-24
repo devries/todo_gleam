@@ -7,7 +7,7 @@ import todo_gleam/htmx
 import todo_gleam/todo_item
 
 // Render the index page along with the list of todo items.
-pub fn page(items: List(database.Todo)) -> element.Element(a) {
+pub fn page(items: List(database.Todo)) -> element.Element(Nil) {
   html.html([], [head(), body(items)])
 }
 
@@ -30,7 +30,7 @@ pub fn head() -> element.Element(a) {
   ])
 }
 
-pub fn body(items: List(database.Todo)) -> element.Element(a) {
+pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
   html.body([attribute.class("m-auto max-w-3xl px-3 float-none")], [
     html.h1([attribute.class("py-6 text-4xl font-serif font-bold")], [
       html.text("Who do that todo that you do?"),
@@ -55,7 +55,7 @@ pub fn body(items: List(database.Todo)) -> element.Element(a) {
   ])
 }
 
-pub fn todo_form() -> element.Element(a) {
+pub fn todo_form() -> element.Element(Nil) {
   html.form(
     [
       attribute.class("flex flex-row"),

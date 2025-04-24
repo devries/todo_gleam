@@ -32,7 +32,7 @@ glailglind = ">= 2.0.1 and < 3.0.0"
 
 [tailwind]
 args = [
-  "--input=./css/input.css",
+  "--input=./input.css",
   "--output=./priv/static/main.css",
   "--minify"
 ]
