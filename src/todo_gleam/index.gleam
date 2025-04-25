@@ -11,7 +11,7 @@ pub fn page(items: List(database.Todo)) -> element.Element(Nil) {
   html.html([attribute.lang("en")], [head(), body(items)])
 }
 
-pub fn head() -> element.Element(a) {
+pub fn head() -> element.Element(Nil) {
   html.head([], [
     // Boilerplate
     html.meta([attribute.charset("utf-8")]),
