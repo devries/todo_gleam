@@ -1,13 +1,3 @@
-# FROM ghcr.io/gleam-lang/gleam:v1.10.0-erlang AS tailwind
-
-# WORKDIR /builder
-# COPY gleam.toml manifest.toml /builder/
-# COPY src/ /builder/src/
-# COPY priv/ /builder/priv/
-# COPY input.css /builder/input.css
-
-# RUN gleam run -m tailwind/install && \
-#   gleam run -m tailwind/run
 FROM debian:12-slim AS tailwind
 ARG TARGETOS TARGETARCH
 WORKDIR /builder
