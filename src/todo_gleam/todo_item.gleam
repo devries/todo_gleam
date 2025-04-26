@@ -10,10 +10,10 @@ import todo_gleam/htmx
 pub fn fragment(item: database.Todo) -> element.Element(Nil) {
   case item.done {
     True -> {
-      html.li([attribute.class("my-2")], [
+      html.li([attribute.class("my-2 flex flex-row items-center")], [
         element.unsafe_raw_html(
           "",
-          "span",
+          "button",
           [
             attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
             attribute.role("button"),
@@ -24,7 +24,7 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
           ],
           "&times;",
         ),
-        html.span(
+        html.button(
           [
             attribute.class("pr-4 cursor-pointer text-xl text-blue-700"),
             attribute.role("button"),
@@ -39,10 +39,10 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
       ])
     }
     False -> {
-      html.li([attribute.class("my-2")], [
+      html.li([attribute.class("my-2 flex flex-row items-center-safe")], [
         element.unsafe_raw_html(
           "",
-          "span",
+          "button",
           [
             attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
             attribute.role("button"),
@@ -53,7 +53,7 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
           ],
           "&times;",
         ),
-        html.span(
+        html.button(
           [
             attribute.class("pr-4 invisible text-xl text-blue-700"),
             attribute.aria_hidden(True),
