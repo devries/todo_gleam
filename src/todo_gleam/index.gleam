@@ -60,12 +60,6 @@ pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
         ),
       ]),
     ]),
-    html.div([attribute.class("mt-10 w-52 mx-auto")], [
-      html.img([
-        attribute.src("static/createdwith.jpeg"),
-        attribute.alt("Site created with HTMX"),
-      ]),
-    ]),
   ])
 }
 
