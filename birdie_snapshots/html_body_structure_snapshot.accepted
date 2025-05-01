@@ -17,7 +17,7 @@ test_name: html_empty_body_test
         Add
       </button>
     </form>
-    <p class="hidden text-red-500" id="send-error" role="status">
+    <p aria-live="polite" class="hidden text-red-500" id="send-error" role="status">
       Error communicating with server
     </p>
     <div>

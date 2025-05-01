@@ -50,6 +50,7 @@ pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
           attribute.class("hidden text-red-500"),
           attribute.id("send-error"),
           attribute.role("status"),
+          attribute.aria_live("polite"),
         ],
         [html.text("Error communicating with server")],
       ),
