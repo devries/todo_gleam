@@ -7,20 +7,20 @@ import todo_gleam/todo_item
 
 pub fn html_head_test() {
   index.head()
-  |> element.to_string
+  |> element.to_readable_string
   |> birdie.snap(title: "HTML head snapshot")
 }
 
 pub fn html_empty_body_test() {
   index.body([])
-  |> element.to_string
+  |> element.to_readable_string
   |> birdie.snap(title: "HTML body structure snapshot")
 }
 
 pub fn html_todo_item_test() {
   let item = Todo(1, "sample", False)
   todo_item.fragment(item)
-  |> element.to_string
+  |> element.to_readable_string
   |> birdie.snap(title: "HTML todo item snapshot")
 }
 
@@ -28,7 +28,7 @@ pub fn html_todo_done_item_test() {
   let item = Todo(1, "sample", True)
 
   todo_item.fragment(item)
-  |> element.to_string
+  |> element.to_readable_string
   |> birdie.snap(title: "HTML done todo item snapsnot")
 }
 

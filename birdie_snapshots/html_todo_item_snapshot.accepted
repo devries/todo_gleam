@@ -4,4 +4,10 @@ title: HTML todo item snapshot
 file: ./test/snapshot_test.gleam
 test_name: html_todo_item_test
 ---
-<li class="my-2 flex flex-row items-center-safe"><button aria-label="do" class="pr-4 cursor-pointer text-2xl text-blue-700" hx-put="/do/1" hx-swap="outerHTML" hx-target="closest li" role="button">&times;</button><button aria-hidden="true" class="pr-4 invisible text-xl text-blue-700">↺</button>sample</li>
+<li class="my-2 flex flex-row items-center-safe">
+<button aria-label="do" class="pr-4 cursor-pointer text-2xl text-blue-700" hx-put="/do/1" hx-swap="outerHTML" hx-target="closest li">&times;</button>
+  <button aria-hidden="true" class="pr-4 invisible text-xl text-blue-700">
+    ↺
+  </button>
+  sample
+</li>

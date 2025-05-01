@@ -16,7 +16,6 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
           "button",
           [
             attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
-            attribute.role("button"),
             attribute.aria_label("delete"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
@@ -27,7 +26,6 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
         html.button(
           [
             attribute.class("pr-4 cursor-pointer text-xl text-blue-700"),
-            attribute.role("button"),
             attribute.aria_label("undo"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
@@ -45,7 +43,6 @@ pub fn fragment(item: database.Todo) -> element.Element(Nil) {
           "button",
           [
             attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
-            attribute.role("button"),
             attribute.aria_label("do"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
