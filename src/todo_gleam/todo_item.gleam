@@ -5,58 +5,51 @@ import lustre/element
 import lustre/element/html
 import todo_gleam/database
 import todo_gleam/htmx
+import todo_gleam/style
 
 // Render a todo item as a html li node.
 pub fn fragment(item: database.Todo) -> element.Element(Nil) {
   case item.done {
     True -> {
-      html.li([attribute.class("my-2 flex flex-row items-center")], [
-        element.unsafe_raw_html(
-          "",
-          "button",
+      html.li([style.item()], [
+        html.button(
           [
-            attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
+            style.item_button(),
             attribute.aria_label("delete"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.delete("/delete/" <> int.to_string(item.id)),
           ],
-          "&times;",
+          [style.delete_icon()],
         ),
         html.button(
           [
-            attribute.class("pr-4 cursor-pointer text-xl text-blue-700"),
+            style.item_button(),
             attribute.aria_label("undo"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.put("/undo/" <> int.to_string(item.id)),
           ],
-          [html.text("↺")],
+          [style.undo_icon()],
         ),
         html.del([], [html.text(item.text)]),
       ])
     }
     False -> {
-      html.li([attribute.class("my-2 flex flex-row items-center-safe")], [
-        element.unsafe_raw_html(
-          "",
-          "button",
+      html.li([style.item()], [
+        html.button(
           [
-            attribute.class("pr-4 cursor-pointer text-2xl text-blue-700"),
+            style.item_button(),
             attribute.aria_label("do"),
             htmx.target("closest li"),
             htmx.swap("outerHTML"),
             htmx.put("/do/" <> int.to_string(item.id)),
           ],
-          "&times;",
+          [style.check_icon()],
         ),
-        html.button(
-          [
-            attribute.class("pr-4 invisible text-xl text-blue-700"),
-            attribute.aria_hidden(True),
-          ],
-          [html.text("↺")],
-        ),
+        html.button([style.hidden_item_button(), attribute.aria_hidden(True)], [
+          style.undo_icon(),
+        ]),
         html.text(item.text),
       ])
     }

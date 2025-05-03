@@ -1,6 +1,6 @@
 .PHONY: run docker clean
 
-priv/static/main.css: src/todo_gleam/index.gleam src/todo_gleam/todo_item.gleam input.css build/bin/tailwindcss
+priv/static/main.css: src/todo_gleam/index.gleam src/todo_gleam/todo_item.gleam src/todo_gleam/style.gleam input.css
 	tailwindcss -i input.css -o $@ --minify
 
 run: priv/static/main.css

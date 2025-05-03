@@ -4,7 +4,7 @@ title: HTML body structure snapshot
 file: ./test/snapshot_test.gleam
 test_name: html_empty_body_test
 ---
-<body class="float-none">
+<body>
   <div class="bg-underwater-blue w-full mb-6">
     <h1 class="m-auto max-w-3xl py-6 text-4xl text-faff-pink font-serif font-bold text-center">
       Who do that todo that you do?
