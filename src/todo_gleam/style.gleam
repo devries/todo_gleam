@@ -33,11 +33,11 @@ pub fn item() -> attribute.Attribute(Nil) {
 }
 
 pub fn item_button() -> attribute.Attribute(Nil) {
-  attribute.class("pr-4 cursor-pointer text-2xl text-blue-700")
+  attribute.class("pr-4 cursor-pointer text-blue-700")
 }
 
 pub fn hidden_item_button() -> attribute.Attribute(Nil) {
-  attribute.class("pr-4 invisible text-xl text-blue-700")
+  attribute.class("pr-4 invisible")
 }
 
 pub fn undo_icon() -> element.Element(Nil) {
