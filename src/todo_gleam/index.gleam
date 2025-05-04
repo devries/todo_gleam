@@ -34,10 +34,10 @@ pub fn head() -> element.Element(Nil) {
 
 pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
   html.body([], [
-    html.div([style.titlebar()], [
+    html.header([style.titlebar()], [
       html.h1([style.title()], [html.text("Who do that todo that you do?")]),
     ]),
-    html.div([style.content_div()], [
+    html.main([style.content_div()], [
       todo_form(),
       html.p(
         [
