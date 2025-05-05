@@ -1,0 +1,8 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '${TODO_IMAGE}:latest', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', '${LITESTREAM_IMAGE}:latest', '-f', 'Dockerfile.litestream','.']
+images:
+  - ${TODO_IMAGE}:latest
+  - ${LITESTREAM_IMAGE}:latest

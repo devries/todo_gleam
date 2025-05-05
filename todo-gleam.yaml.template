@@ -1,0 +1,70 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+  labels:
+    cloud.googleapis.com/location: ${REGION}
+  name: todo-gleam
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '1'
+        run.googleapis.com/startup-cpu-boost: 'true'
+      labels:
+        run.googleapis.com/startupProbeType: Custom
+    spec:
+      containerConcurrency: 80
+      containers:
+      - env:
+        - name: DBFILE
+          value: /data/todo.db
+        - name: SIGNAL_FILE
+          value: /data/dbready
+        image: ${TODO_IMAGE}
+        name: todo-gleam-1
+        ports:
+        - containerPort: 8080
+          name: http1
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          failureThreshold: 10
+          initialDelaySeconds: 2
+          periodSeconds: 1
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /data
+          name: data2
+      - env:
+        - name: DBFILE
+          value: /data/todo.db
+        - name: SIGNAL_FILE
+          value: /data/dbready
+        - name: REPLICA_URL
+          value: ${BUCKET_URL}
+        image: ${LITESTREAM_GLEAM}
+        name: litestream-1
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        volumeMounts:
+        - mountPath: /data
+          name: data2
+      serviceAccountName: ${SERVICE_ACCOUNT}
+      timeoutSeconds: 300
+      volumes:
+      - emptyDir:
+          medium: Memory
+          sizeLimit: 128Mi
+        name: data2
+  traffic:
+  - latestRevision: true
+    percent: 100

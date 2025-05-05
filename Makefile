@@ -1,3 +1,10 @@
+include .env
+export TODO_IMAGE
+export LITESTREAM_IMAGE
+export REGION
+export BUCKET_URL
+export SERVICE_ACCOUNT
+
 .PHONY: run docker clean
 
 priv/static/main.css: src/todo_gleam/index.gleam src/todo_gleam/todo_item.gleam src/todo_gleam/style.gleam input.css
@@ -6,9 +13,15 @@ priv/static/main.css: src/todo_gleam/index.gleam src/todo_gleam/todo_item.gleam 
 run: priv/static/main.css
 	gleam run
 
-docker:
+docker: cloudbuild.yaml
 	gcloud builds submit
 
 clean:
 	rm -r build || true
 	rm priv/static/main.css || true
+
+cloudbuild.yaml: cloudbuild.yaml.template .env
+	envsubst < $< > $@
+
+todo-gleam.yaml: todo-gleam.yaml.template .env
+	envsubst < $< > $@
