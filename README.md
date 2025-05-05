@@ -23,7 +23,7 @@ Initial steps:
 - Create a service account which has the Storage Object Admin role in that bucket.
 - Create a docker image registry in Google Artifact Registry.
 
-The following environment variables must be set:
+The following environment variables must be set in your `.env` file:
 - TODO_IMAGE - The full image name (without tags)
   for the gleam application. It should have the prefix given to your Google
   Artifact Registry image registry.
