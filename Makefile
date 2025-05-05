@@ -5,7 +5,7 @@ export REGION
 export BUCKET_URL
 export SERVICE_ACCOUNT
 
-.PHONY: run docker clean
+.PHONY: run docker clean deploy
 
 priv/static/main.css: src/todo_gleam/index.gleam src/todo_gleam/todo_item.gleam src/todo_gleam/style.gleam input.css
 	tailwindcss -i input.css -o $@ --minify
@@ -25,3 +25,6 @@ cloudbuild.yaml: cloudbuild.yaml.template .env
 
 todo-gleam.yaml: todo-gleam.yaml.template .env
 	envsubst < $< > $@
+
+deploy: todo-gleam.yaml
+	gcloud run services replace todo-gleam.yaml
