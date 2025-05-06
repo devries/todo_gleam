@@ -23,7 +23,7 @@ spec:
           value: /data/todo.db
         - name: SIGNAL_FILE
           value: /data/dbready
-        image: ${TODO_IMAGE}
+        image: ${TODO_IMAGE}:latest
         name: todo-gleam-1
         ports:
         - containerPort: 8080
@@ -49,7 +49,7 @@ spec:
           value: /data/dbready
         - name: REPLICA_URL
           value: ${BUCKET_URL}
-        image: ${LITESTREAM_IMAGE}
+        image: ${LITESTREAM_IMAGE}:latest
         name: litestream-1
         resources:
           limits:
