@@ -1,6 +1,5 @@
 import gleam/dynamic/decode
 import gleam/json
-import gleeunit/should
 import todo_gleam/database
 
 pub fn decode_test() {
@@ -25,11 +24,9 @@ pub fn decode_test() {
     )
 
   let assert Ok(v) = json.parse(from: good, using: decoder)
-  should.equal(v, Ok(database.Todo(12, "Have a bath?", True)))
+  assert v == Ok(database.Todo(12, "Have a bath?", True))
 
   let assert Ok(v) = json.parse(from: bad, using: decoder)
-  should.equal(
-    v,
-    Error("Internal Server Error: unexpected result: 0 rows returned"),
-  )
+
+  assert v == Error("Internal Server Error: unexpected result: 0 rows returned")
 }

@@ -14,7 +14,7 @@ COPY src/ /builder/src/
 COPY input.css /builder/input.css
 RUN ./tailwindcss -i input.css -o main.css --minify
 
-FROM ghcr.io/gleam-lang/gleam:v1.10.0-erlang-alpine AS build
+FROM ghcr.io/gleam-lang/gleam:v1.11.0-erlang-alpine AS build
 
 RUN apk update && apk add build-base
 WORKDIR /builder
@@ -24,7 +24,8 @@ COPY priv/ /builder/priv/
 COPY --from=tailwind /builder/main.css /builder/priv/static/main.css
 
 RUN gleam export erlang-shipment
-RUN sed -i 's/\berl\b/exec\ erl/g' build/erlang-shipment/entrypoint.sh
+# Fixed in 1.11.0
+# RUN sed -i 's/\berl\b/exec\ erl/g' build/erlang-shipment/entrypoint.sh
 
 FROM erlang:alpine
 VOLUME /data
