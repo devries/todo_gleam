@@ -16,7 +16,9 @@ pub fn write_read_test() {
 
   let assert Ok(_) = database.mark_todo_done(conn, id2)
 
-  assert database.get_one_todo(conn, id1) == Ok(database.Todo(id1, "item 1", False))
+  assert database.get_one_todo(conn, id1)
+    == Ok(database.Todo(id1, "item 1", False))
 
-  assert database.get_one_todo(conn, id2) == Ok(database.Todo(id2, "item 2", True))
+  assert database.get_one_todo(conn, id2)
+    == Ok(database.Todo(id2, "item 2", True))
 }
