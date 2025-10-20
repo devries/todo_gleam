@@ -5,7 +5,6 @@ import gleam/int
 import gleam/list
 import gleam/result
 import gleam/string
-import gleam/string_tree
 import gleam/time/calendar
 import gleam/time/timestamp
 import sqlight
@@ -79,9 +78,8 @@ pub fn detail_log_request(
 // Get the size of the response if it is not a file
 fn get_body_size(body: wisp.Body) -> Result(Int, Nil) {
   case body {
-    wisp.Text(sb) -> Ok(string_tree.byte_size(sb))
+    wisp.Text(sb) -> Ok(string.byte_size(sb))
     wisp.Bytes(bb) -> Ok(bytes_tree.byte_size(bb))
-    wisp.File(_) -> Error(Nil)
-    wisp.Empty -> Ok(0)
+    wisp.File(_, _, _) -> Error(Nil)
   }
 }

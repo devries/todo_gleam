@@ -36,7 +36,7 @@ pub fn main() {
     |> mist.new
     |> mist.bind("::")
     |> mist.port(8080)
-    |> mist.start_http
+    |> mist.start
 
   logger.log_info("Listening on port 8080")
   process.sleep_forever()

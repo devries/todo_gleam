@@ -4,6 +4,7 @@ import gleam/json
 import gleam/list
 import gleam/result
 import gleam/string
+import gleam/string_tree
 import lustre/element
 import todo_gleam/database
 import todo_gleam/index
@@ -49,7 +50,7 @@ fn main_page_handler(req: Request, ctx: Context) -> Response {
       let page = element.to_document_string_tree(index.page(items))
 
       wisp.ok()
-      |> wisp.html_body(page)
+      |> wisp.html_body(string_tree.to_string(page))
     }
   }
 }
@@ -67,7 +68,7 @@ fn add_handler(req: Request, ctx: Context) -> Response {
 
   case trimmed_text == "" {
     True -> {
-      wisp.bad_request()
+      wisp.bad_request("Empty todo item")
       |> wisp.set_header("content-type", "text/plain; charset=utf=8")
       |> wisp.string_body("Empty todo items are not accepted")
     }
@@ -80,7 +81,7 @@ fn add_handler(req: Request, ctx: Context) -> Response {
         )
 
       wisp.ok()
-      |> wisp.html_body(rendered_item)
+      |> wisp.html_body(string_tree.to_string(rendered_item))
     }
   }
 }
@@ -91,7 +92,7 @@ fn delete_handler(req: Request, ctx: Context, id: String) -> Response {
 
   case int.parse(id) {
     Error(Nil) -> {
-      wisp.bad_request()
+      wisp.bad_request("Unable to parse")
       |> wisp.set_header("content-type", "text/plain; charset=utf-8")
       |> wisp.string_body("Unable to parse " <> id <> " as integer")
     }
@@ -110,7 +111,7 @@ fn do_handler(req: Request, ctx: Context, id: String) -> Response {
 
   case int.parse(id) {
     Error(Nil) -> {
-      wisp.bad_request()
+      wisp.bad_request("unable to parse")
       |> wisp.set_header("content-type", "text/plain; charset=utf-8")
       |> wisp.string_body("Unable to parse " <> id <> " as integer")
     }
@@ -122,7 +123,7 @@ fn do_handler(req: Request, ctx: Context, id: String) -> Response {
       let rendered_item = element.to_string_tree(todo_item.fragment(item))
 
       wisp.ok()
-      |> wisp.html_body(rendered_item)
+      |> wisp.html_body(string_tree.to_string(rendered_item))
     }
   }
 }
@@ -133,7 +134,7 @@ fn undo_handler(req: Request, ctx: Context, id: String) -> Response {
 
   case int.parse(id) {
     Error(Nil) -> {
-      wisp.bad_request()
+      wisp.bad_request("unable to parse")
       |> wisp.set_header("content-type", "text/plain; charset=utf-8")
       |> wisp.string_body("Unable to parse " <> id <> " as integer")
     }
@@ -145,7 +146,7 @@ fn undo_handler(req: Request, ctx: Context, id: String) -> Response {
       let rendered_item = element.to_string_tree(todo_item.fragment(item))
 
       wisp.ok()
-      |> wisp.html_body(rendered_item)
+      |> wisp.html_body(string_tree.to_string(rendered_item))
     }
   }
 }
@@ -156,12 +157,12 @@ fn get_json(req: Request, ctx: Context, id: String) -> Response {
 
   case int.parse(id) {
     Error(Nil) -> {
-      wisp.bad_request()
+      wisp.bad_request("unable to parse")
       |> wisp.json_body({
         json.object([
           #("error", json.string("Unable to parse " <> id <> " as integer")),
         ])
-        |> json.to_string_tree
+        |> json.to_string
       })
     }
     Ok(tid) -> {
@@ -170,7 +171,7 @@ fn get_json(req: Request, ctx: Context, id: String) -> Response {
       wisp.ok()
       |> wisp.json_body({
         todo_item.json_fragment(item)
-        |> json.to_string_tree
+        |> json.to_string
       })
     }
   }
@@ -184,7 +185,7 @@ fn getall_json(req: Request, ctx: Context) -> Response {
   wisp.ok()
   |> wisp.json_body({
     json.array(from: items, of: todo_item.json_fragment)
-    |> json.to_string_tree
+    |> json.to_string
   })
 }
 
@@ -200,7 +201,7 @@ fn json_internal_server_error(message: String) -> Response {
   wisp.internal_server_error()
   |> wisp.json_body({
     json.object([#("error", json.string("Internal Server Error: " <> message))])
-    |> json.to_string_tree
+    |> json.to_string
   })
 }
 
