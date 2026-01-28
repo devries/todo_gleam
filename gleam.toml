@@ -28,7 +28,6 @@ lustre = ">= 5.0.2 and < 6.0.0"
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
 birdie = ">= 1.2.6 and < 2.0.0"
-asset = ">= 1.2.0 and < 2.0.0"
 
 [tailwind]
 args = [
