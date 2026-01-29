@@ -25,6 +25,10 @@ pub fn head() -> element.Element(Nil) {
       attribute.content("width=device-width, initial-scale=1"),
     ]),
     html.title([], "Who do that todo that you do?"),
+    html.link([
+      attribute.rel("manifest"),
+      attribute.href("static/manifest.json"),
+    ]),
     html.link([attribute.rel("stylesheet"), attribute.href("static/main.css")]),
     html.link([attribute.rel("icon"), attribute.href("static/favicon.png")]),
     html.script([attribute.src("static/htmx.min.js")], ""),
