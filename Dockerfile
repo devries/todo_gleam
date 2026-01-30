@@ -14,7 +14,7 @@ COPY src/ /builder/src/
 COPY input.css /builder/input.css
 RUN ./tailwindcss -i input.css -o main.css --minify
 
-FROM ghcr.io/gleam-lang/gleam:v1.13.0-erlang-alpine AS build
+FROM ghcr.io/gleam-lang/gleam:v1.14.0-erlang-alpine AS build
 
 RUN apk update && apk add build-base
 WORKDIR /builder
