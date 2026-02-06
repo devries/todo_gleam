@@ -1,5 +1,6 @@
 import birdie
 import gleam/json
+import gleam/option.{None}
 import lustre/element
 import todo_gleam/database.{Todo}
 import todo_gleam/index
@@ -18,14 +19,14 @@ pub fn html_empty_body_test() {
 }
 
 pub fn html_todo_item_test() {
-  let item = Todo(1, "sample", False)
+  let item = Todo(1, "sample", False, None)
   todo_item.fragment(item)
   |> element.to_readable_string
   |> birdie.snap(title: "HTML todo item snapshot")
 }
 
 pub fn html_todo_done_item_test() {
-  let item = Todo(1, "sample", True)
+  let item = Todo(1, "sample", True, None)
 
   todo_item.fragment(item)
   |> element.to_readable_string
@@ -33,14 +34,14 @@ pub fn html_todo_done_item_test() {
 }
 
 pub fn json_todo_item_test() {
-  let item = Todo(1, "sample", False)
+  let item = Todo(1, "sample", False, None)
   todo_item.json_fragment(item)
   |> json.to_string
   |> birdie.snap(title: "JSON todo item snapshot")
 }
 
 pub fn json_todo_done_item_test() {
-  let item = Todo(1, "sample", True)
+  let item = Todo(1, "sample", True, None)
 
   todo_item.json_fragment(item)
   |> json.to_string

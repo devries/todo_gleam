@@ -1,11 +1,14 @@
+import gleam/bytes_tree
 import gleam/http.{Delete, Get, Put}
 import gleam/int
 import gleam/json
 import gleam/list
+import gleam/option.{None, Some}
 import gleam/result
 import gleam/string
 import gleam/string_tree
 import lustre/element
+import simplifile
 import todo_gleam/database
 import todo_gleam/index
 import todo_gleam/logger
@@ -13,7 +16,7 @@ import todo_gleam/todo_item
 import todo_gleam/web.{type Context}
 import wisp.{type Request, type Response}
 
-// Router has 5 endpoints:
+// Router has 7 endpoints:
 // / -> get entire page
 // /delete/id -> delete item id
 // /do/id -> do item id
@@ -21,6 +24,7 @@ import wisp.{type Request, type Response}
 // /add -> add a new item
 // /api/get/id -> get item id in JSON
 // /api/get -> get all items in JSON
+// /download/id -> download attachment for item id
 pub fn handle_request(req: Request, ctx: Context) -> Response {
   use req <- web.middleware(req, ctx)
 
@@ -32,6 +36,7 @@ pub fn handle_request(req: Request, ctx: Context) -> Response {
     ["add"] -> add_handler(req, ctx)
     ["api", "get", id] -> get_json(req, ctx, id)
     ["api", "get"] -> getall_json(req, ctx)
+    ["download", id] -> download_handler(req, ctx, id)
     _ -> wisp.not_found()
   }
 }
@@ -75,9 +80,35 @@ fn add_handler(req: Request, ctx: Context) -> Response {
     False -> {
       use new_id <- emessage_to_isa(database.add_todo(ctx.conn, trimmed_text))
 
+      // Handle attachment if present
+      let attachment = list.find(form.files, fn(tup) { tup.0 == "attachment" })
+      let attachment_name = case attachment {
+        Ok(#(_, upload)) if upload.file_name != "" -> {
+          case simplifile.read_bits(upload.path) {
+            Ok(content) -> {
+              let _ =
+                database.add_attachment(
+                  ctx.conn,
+                  new_id,
+                  upload.file_name,
+                  content,
+                )
+              Some(upload.file_name)
+            }
+            Error(_) -> None
+          }
+        }
+        _ -> None
+      }
+
       let rendered_item =
         element.to_string_tree(
-          todo_item.fragment(database.Todo(new_id, trimmed_text, False)),
+          todo_item.fragment(database.Todo(
+            new_id,
+            trimmed_text,
+            False,
+            attachment_name,
+          )),
         )
 
       wisp.ok()
@@ -187,6 +218,27 @@ fn getall_json(req: Request, ctx: Context) -> Response {
     json.array(from: items, of: todo_item.json_fragment)
     |> json.to_string
   })
+}
+
+fn download_handler(req: Request, ctx: Context, id: String) -> Response {
+  use <- wisp.require_method(req, Get)
+
+  case int.parse(id) {
+    Error(Nil) -> wisp.bad_request("Invalid ID")
+    Ok(tid) -> {
+      case database.get_attachment(ctx.conn, tid) {
+        Ok(attachment) -> {
+          wisp.ok()
+          |> wisp.set_header("content-type", "application/octet-stream")
+          |> wisp.file_download_from_memory(
+            named: attachment.filename,
+            containing: bytes_tree.from_bit_array(attachment.content),
+          )
+        }
+        Error(_) -> wisp.not_found()
+      }
+    }
+  }
 }
 
 fn internal_server_error(message: String) -> Response {

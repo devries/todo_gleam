@@ -1,5 +1,5 @@
 ---
-version: 1.2.6
+version: 1.5.3
 title: HTML body structure snapshot
 file: ./test/snapshot_test.gleam
 test_name: html_empty_body_test
@@ -11,8 +11,14 @@ test_name: html_empty_body_test
     </h1>
   </header>
   <main class="m-auto max-w-3xl px-3 float-none">
-    <form class="flex flex-row" hx-post="/add" hx-swap="beforeend" hx-target="#list" id="addition">
+    <form class="flex flex-row items-center" enctype="multipart/form-data" hx-post="/add" hx-swap="beforeend" hx-target="#list" id="addition">
       <input aria-label="Todo entry box" class="grow bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" name="newTodo" placeholder="Todo..." type="text">
+      <label class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-2 cursor-pointer flex items-center justify-center" for="attachment-upload">
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="currentColor" viewbox="0 0 20 20">
+          <path clip-rule="evenodd" d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a2 2 0 0 0 2.828 2.829l6-6a1 1 0 0 0-1.414-1.414l-6 6a.5.5 0 0 1-.707-.707l7-7a1.5 1.5 0 1 1 2.122 2.121l-7 7a3 3 0 0 1-4.242-4.242l7-7a1 1 0 0 0-1.414-1.414l-7 7a5 5 0 0 0 7.072 7.072l7-7a4.5 4.5 0 0 0-6.364-6.364l-7 7a1 1 0 0 0 1.414 1.414l7-7a2.5 2.5 0 0 1 3.536 3.536l-7 7a.5.5 0 0 1-.707 0 .5.5 0 0 1 0-.707l7-7a1 1 0 0 0 0-1.414Z" fill-rule="evenodd"></path>
+        </svg>
+      </label>
+      <input class="hidden" id="attachment-upload" name="attachment" type="file">
       <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-2" type="submit">
         Add
       </button>

@@ -1,9 +1,9 @@
-include .env
-export TODO_IMAGE
-export LITESTREAM_IMAGE
-export REGION
-export BUCKET_URL
-export SERVICE_ACCOUNT
+# include .env
+# export TODO_IMAGE
+# export LITESTREAM_IMAGE
+# export REGION
+# export BUCKET_URL
+# export SERVICE_ACCOUNT
 
 .PHONY: run docker clean deploy
 

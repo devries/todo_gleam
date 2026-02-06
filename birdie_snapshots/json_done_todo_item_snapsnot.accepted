@@ -1,7 +1,7 @@
 ---
-version: 1.2.6
+version: 1.5.3
 title: JSON done todo item snapsnot
 file: ./test/snapshot_test.gleam
 test_name: json_todo_done_item_test
 ---
-{"id":1,"text":"sample","done":true}
+{"id":1,"text":"sample","done":true,"attachment":null}

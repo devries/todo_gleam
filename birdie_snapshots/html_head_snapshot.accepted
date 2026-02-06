@@ -11,6 +11,7 @@ test_name: html_head_test
   <title>
     Who do that todo that you do?
   </title>
+  <link href="static/manifest.json" rel="manifest">
   <link href="static/main.css" rel="stylesheet">
   <link href="static/favicon.png" rel="icon">
   <script src="static/htmx.min.js"></script>

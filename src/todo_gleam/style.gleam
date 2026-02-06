@@ -105,3 +105,47 @@ pub fn delete_icon() -> element.Element(Nil) {
     ],
   )
 }
+
+pub fn paperclip_icon() -> element.Element(Nil) {
+  // paper-clip mini icon from https://heroicons.com/
+
+  svg.svg(
+    [
+      attribute.attribute("viewbox", "0 0 20 20"),
+      attribute.attribute("fill", "currentColor"),
+      attribute.class("size-5"),
+    ],
+    [
+      svg.path([
+        attribute.attribute("fill-rule", "evenodd"),
+        attribute.attribute("clip-rule", "evenodd"),
+        attribute.attribute(
+          "d",
+          "M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a2 2 0 0 0 2.828 2.829l6-6a1 1 0 0 0-1.414-1.414l-6 6a.5.5 0 0 1-.707-.707l7-7a1.5 1.5 0 1 1 2.122 2.121l-7 7a3 3 0 0 1-4.242-4.242l7-7a1 1 0 0 0-1.414-1.414l-7 7a5 5 0 0 0 7.072 7.072l7-7a4.5 4.5 0 0 0-6.364-6.364l-7 7a1 1 0 0 0 1.414 1.414l7-7a2.5 2.5 0 0 1 3.536 3.536l-7 7a.5.5 0 0 1-.707 0 .5.5 0 0 1 0-.707l7-7a1 1 0 0 0 0-1.414Z",
+        ),
+      ]),
+    ],
+  )
+}
+
+pub fn download_icon() -> element.Element(Nil) {
+  // arrow-down-tray mini icon from https://heroicons.com/
+
+  svg.svg(
+    [
+      attribute.attribute("viewbox", "0 0 20 20"),
+      attribute.attribute("fill", "currentColor"),
+      attribute.class("size-5"),
+    ],
+    [
+      svg.path([
+        attribute.attribute("fill-rule", "evenodd"),
+        attribute.attribute("clip-rule", "evenodd"),
+        attribute.attribute(
+          "d",
+          "M10 3a.75.75 0 0 1 .75.75v6.638l1.96-2.158a.75.75 0 1 1 1.08 1.04l-3.25 3.5a.75.75 0 0 1-1.08 0l-3.25-3.5a.75.75 0 1 1 1.08-1.04l1.96 2.158V3.75A.75.75 0 0 1 10 3ZM3.75 13a.75.75 0 0 0 0 1.5h12.5a.75.75 0 0 0 0-1.5H3.75Z",
+        ),
+      ]),
+    ],
+  )
+}

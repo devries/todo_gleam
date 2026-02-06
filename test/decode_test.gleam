@@ -1,9 +1,11 @@
 import gleam/dynamic/decode
 import gleam/json
+import gleam/option.{None}
 import todo_gleam/database
 
 pub fn decode_test() {
-  let good = "{\"id\":12,\"text\":\"Have a bath?\",\"done\":true}"
+  let good =
+    "{\"id\":12,\"text\":\"Have a bath?\",\"done\":true,\"attachment\":null}"
   let bad =
     "{\"error\":\"Internal Server Error: unexpected result: 0 rows returned\"}"
 
@@ -13,7 +15,11 @@ pub fn decode_test() {
         use id <- decode.field("id", decode.int)
         use text <- decode.field("text", decode.string)
         use done <- decode.field("done", decode.bool)
-        decode.success(Ok(database.Todo(id:, text:, done:)))
+        use attachment <- decode.field(
+          "attachment",
+          decode.optional(decode.string),
+        )
+        decode.success(Ok(database.Todo(id:, text:, done:, attachment:)))
       },
       or: [
         {
@@ -24,7 +30,7 @@ pub fn decode_test() {
     )
 
   let assert Ok(v) = json.parse(from: good, using: decoder)
-  assert v == Ok(database.Todo(12, "Have a bath?", True))
+  assert v == Ok(database.Todo(12, "Have a bath?", True, None))
 
   let assert Ok(v) = json.parse(from: bad, using: decoder)
 

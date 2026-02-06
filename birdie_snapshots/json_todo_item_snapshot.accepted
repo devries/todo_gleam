@@ -1,7 +1,7 @@
 ---
-version: 1.2.6
+version: 1.5.3
 title: JSON todo item snapshot
 file: ./test/snapshot_test.gleam
 test_name: json_todo_item_test
 ---
-{"id":1,"text":"sample","done":false}
+{"id":1,"text":"sample","done":false,"attachment":null}

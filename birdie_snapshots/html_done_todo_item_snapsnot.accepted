@@ -18,4 +18,5 @@ test_name: html_todo_done_item_test
   <del>
     sample
   </del>
+
 </li>

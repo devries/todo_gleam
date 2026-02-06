@@ -1,4 +1,5 @@
 import gleam/list
+import gleam/option.{None}
 import sqlight
 import todo_gleam/database
 
@@ -17,8 +18,8 @@ pub fn write_read_test() {
   let assert Ok(_) = database.mark_todo_done(conn, id2)
 
   assert database.get_one_todo(conn, id1)
-    == Ok(database.Todo(id1, "item 1", False))
+    == Ok(database.Todo(id1, "item 1", False, None))
 
   assert database.get_one_todo(conn, id2)
-    == Ok(database.Todo(id2, "item 2", True))
+    == Ok(database.Todo(id2, "item 2", True, None))
 }

@@ -65,11 +65,12 @@ pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
 pub fn todo_form() -> element.Element(Nil) {
   html.form(
     [
-      attribute.class("flex flex-row"),
+      attribute.class("flex flex-row items-center"),
       attribute.id("addition"),
       htmx.post("/add"),
       htmx.target("#list"),
       htmx.swap("beforeend"),
+      attribute.attribute("enctype", "multipart/form-data"),
     ],
     [
       html.input([
@@ -78,6 +79,20 @@ pub fn todo_form() -> element.Element(Nil) {
         attribute.name("newTodo"),
         attribute.aria_label("Todo entry box"),
         attribute.placeholder("Todo..."),
+      ]),
+      html.label(
+        [
+          style.button(),
+          attribute.for("attachment-upload"),
+          attribute.class("cursor-pointer flex items-center justify-center"),
+        ],
+        [style.paperclip_icon()],
+      ),
+      html.input([
+        attribute.id("attachment-upload"),
+        attribute.type_("file"),
+        attribute.name("attachment"),
+        attribute.class("hidden"),
       ]),
       html.button([style.button(), attribute.type_("submit")], [
         html.text("Add"),
