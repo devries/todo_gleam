@@ -4,8 +4,8 @@ import lustre/attribute
 import lustre/element
 import lustre/element/html
 import todo_gleam/domain/item.{type Item, CompletedItem, IncompleteItem}
-import todo_gleam/htmx
-import todo_gleam/style
+import todo_gleam/view/htmx
+import todo_gleam/view/style
 
 // Render a todo item as a html li node.
 pub fn fragment(item: Item) -> element.Element(Nil) {

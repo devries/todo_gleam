@@ -2,8 +2,8 @@ import birdie
 import gleam/json
 import lustre/element
 import todo_gleam/domain/item.{CompletedItem, IncompleteItem}
-import todo_gleam/index
-import todo_gleam/todo_item
+import todo_gleam/view/index
+import todo_gleam/view/todo_item
 
 pub fn html_head_test() {
   index.head()

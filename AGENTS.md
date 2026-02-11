@@ -78,12 +78,13 @@ src/
         json_adapter.gleam              # Input adapter: JSON API handlers
       output/
         sqlite_adapter.gleam            # Output adapter: SQLite ItemReader + ItemWriter
+    view/
+      index.gleam                       # Full HTML page rendering
+      todo_item.gleam                   # Single item HTML/JSON rendering
+      style.gleam                       # Tailwind CSS class helpers, SVG icons
+      htmx.gleam                        # HTMX attribute helpers
     router.gleam                        # Dispatches routes to input adapters
     web.gleam                           # Shared middleware, Context type (holds TodoService)
-    index.gleam                         # Full HTML page rendering
-    todo_item.gleam                     # Single item HTML/JSON rendering
-    style.gleam                         # Tailwind CSS class helpers, SVG icons
-    htmx.gleam                          # HTMX attribute helpers
     logger.gleam                        # Timestamped logging wrappers
 test/
   todo_gleam_test.gleam                 # Gleeunit entry point
@@ -128,7 +129,7 @@ SQLite connection
 
 ### Naming Conventions
 
-- **Modules:** `snake_case`, under `todo_gleam/domain/`, `todo_gleam/adapters/input/`, etc.
+- **Modules:** `snake_case`, under `todo_gleam/domain/`, `todo_gleam/adapters/input/`, `todo_gleam/view/`, etc.
 - **Types:** `PascalCase`, short and descriptive (e.g., `Item`, `Context`, `TodoService`).
 - **Functions:** `snake_case`, verb-oriented for actions (e.g., `add`, `complete`, `new_reader`).
 - **Variables:** `snake_case`, short but meaningful. Common abbreviations: `ctx` (context), `conn` (connection), `req` (request), `tid` (todo id), `svc` (service).
@@ -186,6 +187,7 @@ SQLite connection
 
 - Keep modules small and single-purpose (most are 50-150 lines).
 - Domain types live in `domain/item.gleam`; port types in `domain/ports.gleam`.
+- Presentation/rendering modules live in `view/` (`index`, `todo_item`, `style`, `htmx`).
 - `Context` type lives in `web.gleam` and holds `TodoService` + `static_directory`.
 - `router.gleam` exposes only `handle_request`; input adapter handlers are `pub`.
 

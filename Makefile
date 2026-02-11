@@ -1,4 +1,4 @@
-include .env
+-include .env
 export TODO_IMAGE
 export LITESTREAM_IMAGE
 export REGION
@@ -7,7 +7,7 @@ export SERVICE_ACCOUNT
 
 .PHONY: run docker clean deploy
 
-priv/static/main.css: src/todo_gleam/index.gleam src/todo_gleam/todo_item.gleam src/todo_gleam/style.gleam input.css
+priv/static/main.css: src/todo_gleam/view/index.gleam src/todo_gleam/view/todo_item.gleam src/todo_gleam/view/style.gleam input.css
 	tailwindcss -i input.css -o $@ --minify
 
 run: priv/static/main.css

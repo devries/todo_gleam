@@ -3,9 +3,9 @@ import lustre/attribute
 import lustre/element
 import lustre/element/html
 import todo_gleam/domain/item.{type Item}
-import todo_gleam/htmx
-import todo_gleam/style
-import todo_gleam/todo_item
+import todo_gleam/view/htmx
+import todo_gleam/view/style
+import todo_gleam/view/todo_item
 
 // Render the index page along with the list of todo items.
 pub fn page(items: List(Item)) -> element.Element(Nil) {

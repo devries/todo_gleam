@@ -9,9 +9,9 @@ import gleam/string
 import gleam/string_tree
 import lustre/element
 import todo_gleam/domain/ports.{type TodoService}
-import todo_gleam/index
 import todo_gleam/logger
-import todo_gleam/todo_item
+import todo_gleam/view/index
+import todo_gleam/view/todo_item
 import wisp.{type Request, type Response}
 
 // Send back the index page with all the current todos
