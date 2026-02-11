@@ -2,13 +2,13 @@ import gleam/list
 import lustre/attribute
 import lustre/element
 import lustre/element/html
-import todo_gleam/database
+import todo_gleam/domain/item.{type Item}
 import todo_gleam/htmx
 import todo_gleam/style
 import todo_gleam/todo_item
 
 // Render the index page along with the list of todo items.
-pub fn page(items: List(database.Todo)) -> element.Element(Nil) {
+pub fn page(items: List(Item)) -> element.Element(Nil) {
   html.html([attribute.lang("en")], [head(), body(items)])
 }
 
@@ -32,7 +32,7 @@ pub fn head() -> element.Element(Nil) {
   ])
 }
 
-pub fn body(items: List(database.Todo)) -> element.Element(Nil) {
+pub fn body(items: List(Item)) -> element.Element(Nil) {
   html.body([], [
     html.header([style.titlebar()], [
       html.h1([style.title()], [html.text("Who do that todo that you do?")]),

@@ -1,24 +1,30 @@
 import gleam/list
 import sqlight
-import todo_gleam/database
+import todo_gleam/adapters/output/sqlite_adapter
+import todo_gleam/domain/item.{CompletedItem, IncompleteItem}
+import todo_gleam/domain/service
 
 pub fn write_read_test() {
   use conn <- sqlight.with_connection("file::memory:")
 
-  assert database.create_database(conn) == Ok(Nil)
+  assert sqlite_adapter.create_database(conn) == Ok(Nil)
 
-  let assert Ok(id1) = database.add_todo(conn, "item 1")
-  let assert Ok(id2) = database.add_todo(conn, "item 2")
+  let reader = sqlite_adapter.new_reader(conn)
+  let writer = sqlite_adapter.new_writer(conn)
+  let svc = service.new(reader, writer)
 
-  let assert Ok(todos) = database.get_todos(conn)
+  let assert Ok(item1) = svc.add("item 1")
+  let assert Ok(item2) = svc.add("item 2")
+
+  let assert Ok(todos) = svc.get_all()
 
   assert list.length(todos) == 2
 
-  let assert Ok(_) = database.mark_todo_done(conn, id2)
+  let assert Ok(_) = svc.complete(item.id(item2))
 
-  assert database.get_one_todo(conn, id1)
-    == Ok(database.Todo(id1, "item 1", False))
+  assert svc.get_one(item.id(item1))
+    == Ok(IncompleteItem(id: item.id(item1), text: "item 1"))
 
-  assert database.get_one_todo(conn, id2)
-    == Ok(database.Todo(id2, "item 2", True))
+  assert svc.get_one(item.id(item2))
+    == Ok(CompletedItem(id: item.id(item2), text: "item 2"))
 }

@@ -7,15 +7,16 @@ import gleam/result
 import gleam/string
 import gleam/time/calendar
 import gleam/time/timestamp
-import sqlight
+import todo_gleam/domain/ports.{type TodoService}
 import wisp
 
+// Context holds the service port and static directory for the web layer
 pub type Context {
-  Context(static_directory: String, conn: sqlight.Connection)
+  Context(static_directory: String, service: TodoService)
 }
 
-// The middleware hangs on to the context and set up logging and some defaults
-// as well as logging. It also serves the static content.
+// The middleware hangs on to the context and sets up logging and some defaults
+// as well as serving static content.
 pub fn middleware(
   req: wisp.Request,
   ctx: Context,
@@ -38,7 +39,6 @@ pub fn detail_log_request(
 ) -> wisp.Response {
   let response = handler()
 
-  // let now = birl.now()
   let now = timestamp.system_time()
 
   let client_ip = {

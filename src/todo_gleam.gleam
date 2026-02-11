@@ -2,7 +2,8 @@ import envoy
 import gleam/erlang/process
 import mist
 import sqlight
-import todo_gleam/database
+import todo_gleam/adapters/output/sqlite_adapter
+import todo_gleam/domain/service
 import todo_gleam/logger
 import todo_gleam/router
 import todo_gleam/web.{Context}
@@ -26,9 +27,14 @@ pub fn main() {
   let secret_key_base = wisp.random_string(64)
 
   use conn <- sqlight.with_connection("file:" <> filename)
-  let _ = database.create_database(conn)
+  let _ = sqlite_adapter.create_database(conn)
 
-  let ctx = Context(static_directory: static_directory(), conn: conn)
+  // Wire the hexagonal architecture: output adapter -> service -> context
+  let reader = sqlite_adapter.new_reader(conn)
+  let writer = sqlite_adapter.new_writer(conn)
+  let todo_service = service.new(reader, writer)
+
+  let ctx = Context(static_directory: static_directory(), service: todo_service)
   let handler = router.handle_request(_, ctx)
 
   let assert Ok(_) =
