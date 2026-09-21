@@ -1,13 +1,13 @@
 import envoy
+import ewe
 import gleam/erlang/process
-import mist
 import sqlight
 import todo_gleam/database
 import todo_gleam/logger
 import todo_gleam/router
 import todo_gleam/web.{Context}
 import wisp
-import wisp/wisp_mist
+import wisp/wisp_ewe
 
 pub fn main() {
   wisp.configure_logger()
@@ -24,6 +24,8 @@ pub fn main() {
 
   // Set up the web server process
   let secret_key_base = wisp.random_string(64)
+  let listener_name = process.new_name("ewe_listener")
+  let connection_factory_name = process.new_name("ewe_connection_factory")
 
   use conn <- sqlight.with_connection("file:" <> filename)
   let _ = database.create_database(conn)
@@ -32,11 +34,12 @@ pub fn main() {
   let handler = router.handle_request(_, ctx)
 
   let assert Ok(_) =
-    wisp_mist.handler(handler, secret_key_base)
-    |> mist.new
-    |> mist.bind("::")
-    |> mist.port(8080)
-    |> mist.start
+    handler
+    |> wisp_ewe.handler(secret_key_base)
+    |> ewe.new(listener_name:, connection_factory_name:, handler: _)
+    |> ewe.bind(to: "::")
+    |> ewe.listening(on: 8080)
+    |> ewe.start
 
   logger.log_info("Listening on port 8080")
   process.sleep_forever()
